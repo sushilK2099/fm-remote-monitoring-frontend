@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50:  var(--theme-primary-50,  #eff6ff);
+  --color-primary-100: var(--theme-primary-100, #dbeafe);
+  --color-primary-200: var(--theme-primary-200, #bfdbfe);
+  --color-primary-300: var(--theme-primary-300, #93c5fd);
+  --color-primary-400: var(--theme-primary-400, #60a5fa);
+  --color-primary-500: var(--theme-primary-500, #3b82f6);
+  --color-primary-600: var(--theme-primary-600, #2563eb);
+  --color-primary-700: var(--theme-primary-700, #1d4ed8);
+  --color-primary-800: var(--theme-primary-800, #1e40af);
+  --color-primary-900: var(--theme-primary-900, #1e3a8a);
+
+  --color-secondary-50:  var(--theme-secondary-50,  #f5f3ff);
+  --color-secondary-100: var(--theme-secondary-100, #ede9fe);
+  --color-secondary-200: var(--theme-secondary-200, #ddd6fe);
+  --color-secondary-300: var(--theme-secondary-300, #c4b5fd);
+  --color-secondary-400: var(--theme-secondary-400, #a78bfa);
+  --color-secondary-500: var(--theme-secondary-500, #8b5cf6);
+  --color-secondary-600: var(--theme-secondary-600, #7c3aed);
+  --color-secondary-700: var(--theme-secondary-700, #6d28d9);
+  --color-secondary-800: var(--theme-secondary-800, #5b21b6);
+  --color-secondary-900: var(--theme-secondary-900, #4c1d95);
+}
+
+:root {
+  /* Opero — facility operations console (Maintenance module) */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f9fafc;
+  --bg-tertiary:  #f2f3f5;
+  --bg-sidebar:   #f9fafc;
+  --bg-header:    #f9fafc;
+  --bg-card:      #ffffff;
+  --bg-input:     #ffffff;
+  --bg-hover:     #f9fafc;
+  --bg-subtle:    #fafbfc;
+
+  --text-primary:   #14161b;
+  --text-secondary: #3a3f4b;
+  --text-muted:     #6b7280;
+  --text-tertiary:  #9aa1ac;
+  --text-inverse:   #ffffff;
+  --heading-color:  #14161b; /* Front Dashboard template: h1-h6 { color: #fff } in dark theme, but light theme has no such override — same as text-primary here */
+
+  --border-primary:   #e6e7eb;
+  --border-secondary: #f2f3f5;
+  --border-strong:    #d7d9df;
+
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-tint: #e8f0fe;
+  --row-selected: #ebf1fe;
+
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 10px rgba(20, 22, 27, 0.08);
+  --shadow-lg: -8px 0 30px rgba(20, 22, 27, 0.14);
+
+  --pill-green-bg: #e7f6ec;   --pill-green-fg: #1e7e45;
+  --pill-amber-bg: #fef3e2;   --pill-amber-fg: #b7791f;
+  --pill-red-bg: #fdecec;     --pill-red-fg: #c53434;
+  --pill-gray-bg: #eef0f3;    --pill-gray-fg: #5b6270;
+  --pill-blue-bg: #e8f0fe;    --pill-blue-fg: #2563eb;
+  --pill-violet-bg: #eeeafb;  --pill-violet-fg: #6d45c9;
+  --pill-teal-bg: #e2f5f1;    --pill-teal-fg: #0f8a77;
+
+  /* Type scale (Front Dashboard template: $font-size-base: .875rem @ 16px root) */
+  --text-xs: 10.5px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --h6: 12.25px;
+  --h5: 14px;
+  --h4: 15.75px;
+  --h3: 18.4px;
+  --h2: 21px;
+  --h1: 22.6px;
+  --text-table-head: 11.9px; /* Front Dashboard template: .table thead th { font-size: .74375rem } */
+  --display-sm: 20px;
+  --display-md: 24px;
+  --display-lg: 32px;
+
+  /* Layout metrics (Front Dashboard template proportions) */
+  --header-height: 62px;
+  --sidebar-width: 260px;
+  --sidebar-width-mini: 92px;
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* Card / dropdown elevation */
+  --shadow-card: 0 6px 12px rgba(20, 22, 27, 0.07);
+  --shadow-card-hover: 0 10px 20px rgba(20, 22, 27, 0.1);
+
+  --nav-hover-bg: rgba(20, 22, 27, 0.05);
+}
+
+.dark {
+  /* Front Dashboard template darkmode scale ($gray-900 body / $gray-700 card) — sidebar matched to body bg per user request, deviating from the reference's separate #17181a */
+  --bg-primary:   #2a2d30;
+  --bg-secondary: #1e2022;
+  --bg-tertiary:  #2c2f32;
+  --bg-sidebar:   #1e2022;
+  --bg-header:    #1e2022;
+  --bg-card:      #25282a;
+  --bg-input:     #25282a;
+  --bg-hover:     #2f3235;
+  --bg-subtle:    #212426;
+
+  --text-primary:   #c5c8cc;
+  --text-secondary: #a0a5ac;
+  --text-muted:     #91989e;
+  --text-tertiary:  #74787f;
+  --text-inverse:   #14161a;
+  --heading-color:  #ffffff; /* Front Dashboard template dark theme: h1-h6 { color: #fff } — brighter than body text (#c5c8cc) */
+
+  --border-primary:   #2f3235;
+  --border-secondary: #262a2c;
+  --border-strong:    #4b5055;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+
+  --accent:       #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-tint:  rgba(59, 130, 246, 0.12);
+  --row-selected: rgba(59, 130, 246, 0.1);
+
+  --pill-green-bg:  rgba(34, 197, 94, 0.15);   --pill-green-fg:  #4ade80;
+  --pill-amber-bg:  rgba(245, 158, 11, 0.15);  --pill-amber-fg:  #fbbf24;
+  --pill-red-bg:    rgba(239, 68, 68, 0.15);   --pill-red-fg:    #f87171;
+  --pill-gray-bg:   rgba(148, 163, 184, 0.12); --pill-gray-fg:   #94a3b8;
+  --pill-blue-bg:   rgba(59, 130, 246, 0.15);  --pill-blue-fg:   #60a5fa;
+  --pill-violet-bg: rgba(139, 92, 246, 0.15);  --pill-violet-fg: #a78bfa;
+  --pill-teal-bg:   rgba(20, 184, 166, 0.15);  --pill-teal-fg:   #2dd4bf;
+
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 10px 24px rgba(0, 0, 0, 0.45);
+  --nav-hover-bg: rgba(255, 255, 255, 0.06);
+}
+
+body {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Heading scale ported from the Front Dashboard template ($font-size-base: .875rem / 14px) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--text-primary);
+}
+h1 { font-size: 22.6px; }
+h2 { font-size: 21px; }
+h3 { font-size: 18.4px; }
+h4 { font-size: 15.75px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12.25px; }
+
+* { box-sizing: border-box; }
+
+.font-mono { font-family: var(--font-mono); }
+
+/* Opero status / type / channel pill */
+.op-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.op-pill-green  { background: var(--pill-green-bg);  color: var(--pill-green-fg); }
+.op-pill-amber  { background: var(--pill-amber-bg);  color: var(--pill-amber-fg); }
+.op-pill-red    { background: var(--pill-red-bg);    color: var(--pill-red-fg); }
+.op-pill-gray   { background: var(--pill-gray-bg);   color: var(--pill-gray-fg); }
+.op-pill-blue   { background: var(--pill-blue-bg);   color: var(--pill-blue-fg); }
+.op-pill-violet { background: var(--pill-violet-bg); color: var(--pill-violet-fg); }
+.op-pill-teal   { background: var(--pill-teal-bg);   color: var(--pill-teal-fg); }
+
+/* Small square icon-only button (row/card actions). Neutral by default; hover reveals intent. */
+.op-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.op-icon-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+.op-icon-btn-danger:hover { background: var(--pill-red-bg); color: var(--pill-red-fg); }
+
+/* Inline code chip — legible monospace value against a subtle surface. */
+.op-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+/* Hide the browser's native calendar icon on date inputs — pages provide their own icon instead */
+input[type="date"]::-webkit-calendar-picker-indicator { display: none; -webkit-appearance: none; }
+input[type="date"]::-webkit-inner-spin-button { display: none; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; border: 2px solid var(--bg-secondary); }
+
+@keyframes opOverlay { from { opacity: 0; } to { opacity: 1; } }
+@keyframes opSlide { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes opPop { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+/* ── Micro-interaction polish ─────────────────────────────── */
+
+/* Page fade-in on route change */
+@keyframes op-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.op-page { animation: op-fadein 0.18s ease both; }
+
+/* Shimmer skeleton (more premium than plain pulse) */
+@keyframes op-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.op-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-hover)    50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 800px 100%;
+  animation: op-shimmer 1.4s ease infinite;
+  border-radius: 6px;
+}
+
+/* Button press feedback */
+button:not(:disabled):active { transform: scale(0.97); }
+button { transition: transform 0.1s ease; }
+
+/* Card hover lift */
+.op-card-hover {
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+  will-change: transform;
+}
+.op-card-hover:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Modal entrance (aliased to existing keyframes) */
+@keyframes op-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+@keyframes op-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.op-modal-overlay { animation: op-overlay-in 0.15s ease both; }
+.op-modal-panel   { animation: op-modal-in  0.18s cubic-bezier(.22,.61,.36,1) both; will-change: transform; }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .op-login-panel { display: none !important; }
+}
+
+/* ── Report print styles ──────────────────────────────────────────────────── */
+@media print {
+  /* Hide sidebar and header wrappers (display:contents in normal mode → display:none in print) */
+  html.printing-report .layout-sidebar-wrapper,
+  html.printing-report .layout-header-wrapper { display: none !important; }
+
+  /* Layout: undo overflow clipping so content flows across pages */
+  html.printing-report body,
+  html.printing-report body > div,
+  html.printing-report body > div > div,
+  html.printing-report body > div > div > main {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    background: white !important;
+  }
+
+  /* Force white background on the whole page */
+  html.printing-report body { background: white !important; margin: 0; padding: 0; }
+
+  /* Hide interactive controls */
+  html.printing-report .no-print { display: none !important; }
+
+  /* Force light theme for report cards/text — skip SVG so chart colors survive */
+  html.printing-report .report-root,
+  html.printing-report .report-root *:not(svg):not(path):not(circle):not(rect):not(line):not(polyline):not(polygon):not(g):not(text):not(tspan) {
+    background-color: white !important;
+    color: #111 !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Report root: natural flow, full width */
+  html.printing-report .report-root {
+    max-width: 100% !important;
+    width: 100% !important;
+    position: static !important;
+  }
+
+  /* Prevent individual sections from splitting mid-card */
+  html.printing-report .report-root > div { page-break-inside: avoid; }
+
+  @page {
+    margin: 14mm 12mm;
+    size: A4 portrait;
+  }
+}
+
+/* ─── react-grid-layout (inlined + theme-aware) ───────────────────────── */
+.react-grid-layout { position: relative; transition: height 200ms ease; }
+.react-grid-item { transition: all 200ms ease; transition-property: left, top, width, height; }
+.react-grid-item img { pointer-events: none; user-select: none; }
+.react-grid-item.cssTransforms { transition-property: transform, width, height; }
+.react-grid-item.resizing { transition: none; z-index: 1; will-change: width, height; }
+.react-grid-item.react-draggable-dragging { transition: none; z-index: 3; will-change: transform; }
+.react-grid-item.dropping { visibility: hidden; }
+.react-grid-item.react-grid-placeholder {
+  background: var(--accent, #6366f1);
+  opacity: 0.18;
+  border-radius: var(--radius-lg, 12px);
+  transition-duration: 100ms;
+  z-index: 2;
+  user-select: none;
+}
+.react-grid-item.react-grid-placeholder.placeholder-resizing { transition: none; }
+.react-grid-item > .react-resizable-handle { position: absolute; width: 20px; height: 20px; opacity: 0; }
+.react-grid-item:hover > .react-resizable-handle { opacity: 1; }
+.react-grid-item > .react-resizable-handle::after {
+  content: ""; position: absolute; right: 4px; bottom: 4px; width: 6px; height: 6px;
+  border-right: 2px solid var(--text-tertiary, rgba(120,120,130,0.7));
+  border-bottom: 2px solid var(--text-tertiary, rgba(120,120,130,0.7));
+}
+.react-resizable-hide > .react-resizable-handle { display: none; }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-sw { bottom: 0; left: 0; cursor: sw-resize; transform: rotate(90deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-se { bottom: 0; right: 0; cursor: se-resize; }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-nw { top: 0; left: 0; cursor: nw-resize; transform: rotate(180deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-ne { top: 0; right: 0; cursor: ne-resize; transform: rotate(270deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-w,
+.react-grid-item > .react-resizable-handle.react-resizable-handle-e { top: 50%; margin-top: -10px; cursor: ew-resize; }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-w { left: 0; transform: rotate(135deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-e { right: 0; transform: rotate(315deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-n,
+.react-grid-item > .react-resizable-handle.react-resizable-handle-s { left: 50%; margin-left: -10px; cursor: ns-resize; }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-n { top: 0; transform: rotate(225deg); }
+.react-grid-item > .react-resizable-handle.react-resizable-handle-s { bottom: 0; transform: rotate(45deg); }
