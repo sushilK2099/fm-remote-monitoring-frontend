@@ -79,96 +79,109 @@ export default function NewDevicePage() {
       sectionHref="/devices"
       description="Register an IoT device that pushes automatic readings."
     >
-      <div className="mx-auto w-full max-w-2xl">
-        <Button variant="ghost" size="sm" className="-ml-2 mb-4" onClick={() => router.push('/devices')} disabled={saving}>
-          <ArrowLeft size={16} /> Back
-        </Button>
-        <form onSubmit={submit} className="space-y-6">
-        {/* Section: Device */}
-        <Card>
-          <SectionHeader step={1} title="Device" subtitle="Name it and choose how it delivers readings." />
-          <div className="space-y-4">
-            <Input label="Device name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Gateway 1" autoFocus />
+      <Button variant="ghost" size="sm" className="-ml-2 mb-4" onClick={() => router.push('/devices')} disabled={saving}>
+        <ArrowLeft size={16} /> Back
+      </Button>
 
-            <div>
-              <label className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Transport</label>
-              <div className="mt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <ModeCard
-                  active={transport === 'HTTP'} onClick={() => setTransport('HTTP')}
-                  icon={Cable} title="HTTP push"
-                  desc="The device POSTs readings to the ingest endpoint."
-                />
-                <ModeCard
-                  active={transport === 'MQTT'} onClick={() => setTransport('MQTT')}
-                  icon={Radio} title="MQTT"
-                  desc="The device publishes readings to the broker."
-                />
+      {/* Front-style form layout: main column (form) + a helper sidebar. */}
+      <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <div className="lg:col-span-8 space-y-5">
+          {/* Card: Device */}
+          <Card noPadding header={<CardTitle title="Device" hint="Name it and choose how it delivers readings." />}>
+            <div className="p-5 space-y-4">
+              <Input label="Device name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Gateway 1" autoFocus />
+
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Transport</label>
+                <div className="mt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <ModeCard
+                    active={transport === 'HTTP'} onClick={() => setTransport('HTTP')}
+                    icon={Cable} title="HTTP push"
+                    desc="The device POSTs readings to the ingest endpoint."
+                  />
+                  <ModeCard
+                    active={transport === 'MQTT'} onClick={() => setTransport('MQTT')}
+                    icon={Radio} title="MQTT"
+                    desc="The device publishes readings to the broker."
+                  />
+                </div>
               </div>
+
+              {transport === 'MQTT' && (
+                <div className="rounded-lg border p-4"
+                  style={{ borderColor: 'var(--border-primary)', backgroundColor: 'var(--bg-hover)' }}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Radio size={15} style={{ color: 'var(--accent)' }} />
+                    <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>MQTT connection</span>
+                  </div>
+                  <dl className="space-y-2.5 text-sm">
+                    <ConnRow label="Broker"><code className="op-code">{MQTT_BROKER_HINT}</code></ConnRow>
+                    <ConnRow label="Topic"><code className="op-code">fm/readings/&lt;deviceId&gt;</code></ConnRow>
+                    <ConnRow label="Payload"><code className="op-code">{'{ "temp1": 55, "humid1": 40, "_ts"?: "ISO-8601" }'}</code></ConnRow>
+                    <ConnRow label="Username"><code className="op-code">&lt;the device ID&gt;</code></ConnRow>
+                    <ConnRow label="Password"><span style={{ color: 'var(--text-secondary)' }}>the API key shown after saving</span></ConnRow>
+                  </dl>
+                  <p className="mt-3 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                    One topic per device — publish a single JSON object whose keys are your channel keys.
+                    Optional <code className="op-code">_ts</code> sets the reading time for all channels. The exact topic and key appear after you save.
+                  </p>
+                </div>
+              )}
             </div>
+          </Card>
 
-            {transport === 'MQTT' && (
-              <div className="rounded-lg border p-4"
-                style={{ borderColor: 'var(--border-primary)', backgroundColor: 'var(--bg-hover)' }}>
-                <div className="flex items-center gap-2 mb-3">
-                  <Radio size={15} style={{ color: 'var(--accent)' }} />
-                  <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>MQTT connection</span>
-                </div>
-                <dl className="space-y-2.5 text-sm">
-                  <ConnRow label="Broker"><code className="op-code">{MQTT_BROKER_HINT}</code></ConnRow>
-                  <ConnRow label="Topic"><code className="op-code">fm/readings/&lt;deviceId&gt;</code></ConnRow>
-                  <ConnRow label="Payload"><code className="op-code">{'{ "temp1": 55, "humid1": 40, "_ts"?: "ISO-8601" }'}</code></ConnRow>
-                  <ConnRow label="Username"><code className="op-code">&lt;the device ID&gt;</code></ConnRow>
-                  <ConnRow label="Password"><span style={{ color: 'var(--text-secondary)' }}>the API key shown after saving</span></ConnRow>
-                </dl>
-                <p className="mt-3 text-xs" style={{ color: 'var(--text-tertiary)' }}>
-                  One topic per device — publish a single JSON object whose keys are your channel keys.
-                  Optional <code className="op-code">_ts</code> sets the reading time for all channels. The exact topic and key appear after you save.
-                </p>
+          {/* Card: Channel map */}
+          <Card noPadding header={<CardTitle title="Channel map" hint="Bind each device channel (e.g. temp1) to a metric." />}>
+            <div className="p-5">
+              <div className="space-y-3">
+                {channelMap.map((c, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <div className="w-40 shrink-0">
+                      <Input placeholder="temp1" value={c.channelKey} onChange={(e) => setChannel(i, 'channelKey', e.target.value)} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Select options={metricOptions} value={c.metricId} onChange={(e) => setChannel(i, 'metricId', e.target.value)} />
+                      {c.metricId && (
+                        <p className="mt-1 text-xs truncate" style={{ color: 'var(--text-tertiary)' }}>
+                          {metricLabel(metrics.find((m) => m.metricId === c.metricId)) || c.metricId}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="button" className="op-icon-btn op-icon-btn-danger mt-1.5" title="Remove channel"
+                      onClick={() => removeChannel(i)} disabled={channelMap.length === 1}
+                      style={channelMap.length === 1 ? { opacity: 0.4, cursor: 'not-allowed' } : undefined}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        </Card>
+              <Button type="button" variant="outline" size="sm" className="mt-3" onClick={addChannel}>
+                <Plus size={14} /> Add channel
+              </Button>
+            </div>
+          </Card>
 
-        {/* Section: Channel map */}
-        <Card>
-          <SectionHeader step={2} title="Channel map" subtitle="Bind each device channel (e.g. temp1) to a metric." />
-          <div className="space-y-3">
-            {channelMap.map((c, i) => (
-              <div key={i} className="flex items-start gap-2">
-                <div className="w-40 shrink-0">
-                  <Input placeholder="temp1" value={c.channelKey} onChange={(e) => setChannel(i, 'channelKey', e.target.value)} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <Select options={metricOptions} value={c.metricId} onChange={(e) => setChannel(i, 'metricId', e.target.value)} />
-                  {c.metricId && (
-                    <p className="mt-1 text-xs truncate" style={{ color: 'var(--text-tertiary)' }}>
-                      {metricLabel(metrics.find((m) => m.metricId === c.metricId)) || c.metricId}
-                    </p>
-                  )}
-                </div>
-                <button
-                  type="button" className="op-icon-btn op-icon-btn-danger mt-1.5" title="Remove channel"
-                  onClick={() => removeChannel(i)} disabled={channelMap.length === 1}
-                  style={channelMap.length === 1 ? { opacity: 0.4, cursor: 'not-allowed' } : undefined}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            ))}
+          <div className="flex items-center justify-end gap-2">
+            <Button variant="outline" type="button" onClick={() => router.push('/devices')} disabled={saving}>Cancel</Button>
+            <Button type="submit" isLoading={saving}>
+              {!saving && <Check size={16} />} Create device
+            </Button>
           </div>
-          <Button type="button" variant="outline" size="sm" className="mt-3" onClick={addChannel}>
-            <Plus size={14} /> Add channel
-          </Button>
-        </Card>
-
-        <div className="flex items-center justify-end gap-2 pt-2 mt-1 border-t" style={{ borderColor: 'var(--border-primary)' }}>
-          <Button variant="outline" type="button" onClick={() => router.push('/devices')} disabled={saving}>Cancel</Button>
-          <Button type="submit" isLoading={saving}>
-            {!saving && <Check size={16} />} Create device
-          </Button>
         </div>
-        </form>
-      </div>
+
+        {/* Helper sidebar */}
+        <div className="lg:col-span-4">
+          <Card noPadding header={<CardTitle title="About devices" />}>
+            <div className="p-5 text-sm space-y-3" style={{ color: 'var(--text-secondary)' }}>
+              <p>A <strong style={{ color: 'var(--text-primary)' }}>device</strong> is an IoT gateway/sensor that pushes automatic readings into your metrics.</p>
+              <p>The <strong style={{ color: 'var(--text-primary)' }}>channel map</strong> tells the platform which incoming channel key feeds which metric.</p>
+              <p>A one-time API key is shown right after you create the device — copy it then, it can’t be retrieved again.</p>
+            </div>
+          </Card>
+        </div>
+      </form>
     </PageWrapper>
   );
 }
@@ -183,19 +196,12 @@ function ConnRow({ label, children }) {
   );
 }
 
-function SectionHeader({ step, title, subtitle }) {
+// Bordered card-header title (Front "card-header" idiom): title + optional muted hint.
+function CardTitle({ title, hint }) {
   return (
-    <div className="flex items-center gap-3 mb-4">
-      <span
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
-        style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
-      >
-        {step}
-      </span>
-      <div>
-        <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{title}</div>
-        <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{subtitle}</div>
-      </div>
+    <div>
+      <h4 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{title}</h4>
+      {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--text-tertiary)' }}>{hint}</p>}
     </div>
   );
 }
