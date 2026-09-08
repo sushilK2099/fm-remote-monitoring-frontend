@@ -50,11 +50,16 @@ export const TYPE_PILL  = { CORRECTIVE: 'amber', PREVENTIVE: 'teal' };
 
 export const STATUS_LABEL = {
   SCHEDULED: 'Scheduled', STARTED: 'In Progress', ON_HOLD: 'On Hold',
-  OVERDUE: 'Overdue', SUCCESS: 'Completed', FAILED: 'Cancelled', CANCELLED: 'Cancelled',
+  // FAILED and CANCELLED are DIFFERENT facts and must not share a label: a failed job needs
+  // re-attempting and may be a safety issue, a cancelled one was somebody's decision. The rest of
+  // the product already distinguished them (the filter dropdown, the report chart, `failureReason`
+  // on the detail page) — only this map conflated them.
+  OVERDUE: 'Overdue', SUCCESS: 'Completed', FAILED: 'Failed', CANCELLED: 'Cancelled',
 };
 export const STATUS_PILL = {
   SCHEDULED: 'blue', STARTED: 'amber', ON_HOLD: 'gray',
-  OVERDUE: 'red', SUCCESS: 'green', FAILED: 'gray', CANCELLED: 'gray',
+  // Red, not grey: a failed job must be visually distinct from an abandoned one in a list.
+  OVERDUE: 'red', SUCCESS: 'green', FAILED: 'red', CANCELLED: 'gray',
 };
 
 export const PRIORITY_LABEL = { LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High', CRITICAL: 'Critical' };
