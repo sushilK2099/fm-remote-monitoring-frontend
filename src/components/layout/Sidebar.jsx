@@ -43,7 +43,9 @@ export default function Sidebar() {
     try { await authService.logout(); } catch { /* ignore */ }
     logout();
     clearSite();
-    window.location.href = '/mnt/login';
+    // This module's OWN login page. It pointed at '/mnt/login' — copy-pasted from maintenance —
+    // so logging out dumped the user in a module they may not even have. See ACCOUNT_HOME_PLAN.md C2.
+    window.location.href = '/rm/login';
   };
 
   const fullName = user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : (user?.email || 'User');
